@@ -49,18 +49,23 @@ jobs:
         outputs EXE_suffix
     # Print the compiler version, for debugging.
     - name: print compiler version
+      shell: bash
       run: cargo run --target ${{ matrix.target.toolchain }} --quiet
       working-directory: ./tools/compiler_version
     # Print out instruction set support, for debugging.
     - name: print instruction set support
+      shell: bash
       run: cargo run --target ${{ matrix.target.toolchain }} --quiet
       working-directory: ./tools/instruction_set_support
     # bild
-    - run: cargo +1.85.0 build --target ${{ matrix.target.toolchain }} --release
+    - shell: bash
+      run: cargo +1.85.0 build --target ${{ matrix.target.toolchain }} --release
     # Default tests plus Rayon and trait implementations.
-    - run: cargo build --target ${{ matrix.target.toolchain }} --release
+    - shell: bash
+      run: cargo build --target ${{ matrix.target.toolchain }} --release
     # Default tests plus Rayon and trait implementations.
-    - run: cargo +1.85.0 test --target ${{ matrix.target.toolchain }} --features=rayon,traits-preview,serde,zeroize
+    - shell: bash
+      run: cargo +1.85.0 test --target ${{ matrix.target.toolchain }} --features=rayon,traits-preview,serde,zeroize
     # Same but with only one thread in the Rayon pool. This can find deadlocks.
     - name: "again with RAYON_NUM_THREADS=1"
       run: cargo test --features=rayon,traits-preview,serde,zeroize
