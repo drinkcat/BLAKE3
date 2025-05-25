@@ -31,9 +31,8 @@ jobs:
     - uses: actions/checkout@v4
     - uses: dtolnay/rust-toolchain@master
       with:
-        toolchain: "1.85.0"
+        toolchain: ${{ format('{0}-{1}', matrix.channel, matrix.target.toolchain) }}
         targets: ${{ matrix.target.toolchain }}
-        #toolchain: ${{ format('{0}-{1}', matrix.channel, matrix.target.toolchain) }}
     - name: update
       shell: bash
       run: |
