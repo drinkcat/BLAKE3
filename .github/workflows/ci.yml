@@ -40,8 +40,13 @@ jobs:
         outputs() { step_id="${{ github.action }}"; for var in "$@" ; do echo steps.${step_id}.outputs.${var}="${!var}"; echo "${var}=${!var}" >> $GITHUB_OUTPUT; done; }
         case '${{ matrix.target.toolchain }}' in
           x86_64-pc-windows-gnu)
+            which gcc || true
+            which gcc.exe || true
+            cat $GITHUB_PATH
             C:/msys64/usr/bin/pacman.exe -Sy --needed mingw-w64-x86_64-gcc --noconfirm
             echo "C:\msys64\mingw64\bin" >> $GITHUB_PATH
+            which gcc || true
+            which gcc.exe || true
           ;;
         esac
         # determine EXE suffix
