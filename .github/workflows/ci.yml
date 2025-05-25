@@ -75,6 +75,7 @@ jobs:
     # - different levels of SIMD support
     #
     # Full SIMD support.
+    - run: cargo test
     - run: cargo test --features=
     - run: cargo test --features=prefer_intrinsics
     - run: cargo test --features=pure
