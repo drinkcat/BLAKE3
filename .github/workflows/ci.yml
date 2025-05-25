@@ -36,12 +36,17 @@ jobs:
     - name: update
       shell: bash
       run: |
-       case '${{ matrix.target.toolchain }}' in
+        ## VARs setup
+        outputs() { step_id="${{ github.action }}"; for var in "$@" ; do echo steps.${step_id}.outputs.${var}="${!var}"; echo "${var}=${!var}" >> $GITHUB_OUTPUT; done; }
+        case '${{ matrix.target.toolchain }}' in
           x86_64-pc-windows-gnu)
             C:/msys64/usr/bin/pacman.exe -Sy --needed mingw-w64-x86_64-gcc --noconfirm
             echo "C:\msys64\mingw64\bin" >> $GITHUB_PATH
           ;;
         esac
+        # determine EXE suffix
+        EXE_suffix="" ; case '${{ matrix.target.toolchain }}' in *-pc-windows-*) EXE_suffix=".exe" ;; esac;
+        outputs EXE_suffix
     # Print the compiler version, for debugging.
     - name: print compiler version
       run: cargo run --target ${{ matrix.target.toolchain }} --quiet
