@@ -55,6 +55,10 @@ jobs:
     - name: print instruction set support
       run: cargo run --target ${{ matrix.target.toolchain }} --quiet
       working-directory: ./tools/instruction_set_support
+    # bild
+    - run: cargo +1.85.0 build --target ${{ matrix.target.toolchain }} --release
+    # Default tests plus Rayon and trait implementations.
+    - run: cargo build --target ${{ matrix.target.toolchain }} --release
     # Default tests plus Rayon and trait implementations.
     - run: cargo +1.85.0 test --target ${{ matrix.target.toolchain }} --features=rayon,traits-preview,serde,zeroize
     # Same but with only one thread in the Rayon pool. This can find deadlocks.
