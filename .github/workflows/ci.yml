@@ -29,10 +29,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - uses: dtolnay/rust-toolchain@master
-      with:
-        toolchain: "1.85.0" #${{ format('{0}-{1}', matrix.channel, matrix.target.toolchain) }}
-        targets: ${{ matrix.target.toolchain }}
     - name: update
       shell: bash
       run: |
@@ -52,6 +48,10 @@ jobs:
         # determine EXE suffix
         EXE_suffix="" ; case '${{ matrix.target.toolchain }}' in *-pc-windows-*) EXE_suffix=".exe" ;; esac;
         outputs EXE_suffix
+    - uses: dtolnay/rust-toolchain@master
+      with:
+        toolchain: "1.85.0" #${{ format('{0}-{1}', matrix.channel, matrix.target.toolchain) }}
+        targets: ${{ matrix.target.toolchain }}
     # Print the compiler version, for debugging.
     - name: print compiler version
       shell: bash
