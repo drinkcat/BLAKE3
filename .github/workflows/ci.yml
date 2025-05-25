@@ -34,6 +34,15 @@ jobs:
         toolchain: "1.85.0"
         targets: ${{ matrix.target.toolchain }}
         #toolchain: ${{ format('{0}-{1}', matrix.channel, matrix.target.toolchain) }}
+    - name: update
+      shell: bash
+      run: |
+       case '${{ matrix.target.toolchain }}' in
+          x86_64-pc-windows-gnu)
+            C:/msys64/usr/bin/pacman.exe -Sy --needed mingw-w64-x86_64-gcc --noconfirm
+            echo "C:\msys64\mingw64\bin" >> $GITHUB_PATH
+          ;;
+        esac
     # Print the compiler version, for debugging.
     - name: print compiler version
       run: cargo run --target ${{ matrix.target.toolchain }} --quiet
